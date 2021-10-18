@@ -9,6 +9,9 @@ async def request_async(method: str, url: str, **kwargs) -> Result:
     if 'timeout' not in kwargs.keys():
         kwargs['timeout'] = 1
 
+    if 'json' in kwargs.keys() and kwargs['json'] is not dict:
+        kwargs['json'] = kwargs['json'].to_dict()
+
     async with aiohttp.ClientSession() as session:
         try:
             async with session.request(method, url, **kwargs) as resp:
