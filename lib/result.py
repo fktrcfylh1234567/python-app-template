@@ -9,6 +9,9 @@ class Ok:
     def unwrap(self):
         return self.value
 
+    def or_else(self, value):
+        return self
+
 
 @dataclass
 class Err:
@@ -16,6 +19,10 @@ class Err:
 
     def unwrap(self):
         raise RuntimeError(f"trying to unwrap {self}!")
+
+    @staticmethod
+    def or_else(value):
+        return Ok(value)
 
 
 Result: TypeAlias = Ok | Err
@@ -26,6 +33,10 @@ if __name__ == '__main__':
         return Ok("data")
 
 
+    def baz() -> Result:
+        return Err()
+
+
     match foo():
         case Ok(it):
             print("ok:", it)
@@ -33,3 +44,4 @@ if __name__ == '__main__':
             print("error:", e)
 
     print(foo().unwrap())
+    print(baz().or_else("null").unwrap())
