@@ -1,6 +1,5 @@
 import asyncio
-from asyncio import coroutine
-from typing import Tuple, Callable
+from typing import Tuple, Callable, Awaitable
 
 ClientAddress = Tuple[str, int]
 
@@ -11,10 +10,14 @@ class ClientSession:
         self.data = dict()
 
 
+async def _empty_event(*args):
+    return args
+
+
 class TcpServer:
-    on_connected: Callable[[ClientSession], coroutine]
-    on_message: Callable[[ClientSession, str], coroutine]
-    on_disconnected: Callable[[ClientSession], coroutine]
+    on_connected: Callable[[ClientSession], Awaitable] = _empty_event
+    on_message: Callable[[ClientSession, str], Awaitable] = _empty_event
+    on_disconnected: Callable[[ClientSession], Awaitable] = _empty_event
 
     def __init__(self, host='127.0.0.1', port=8888):
         self.host = host

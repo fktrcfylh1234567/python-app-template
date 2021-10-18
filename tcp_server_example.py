@@ -9,11 +9,11 @@ async def on_connected(session: ClientSession):
 
 
 async def on_message(session: ClientSession, message: str):
-    print(f"Received {message!r} from {session.data['id']}")
+    print(f"Received {message!r} from {session.data['user_id']}")
 
 
 async def on_disconnected(session: ClientSession):
-    print('on_disconnected', session.data['id'])
+    print('on_disconnected', session.data['user_id'])
 
 
 async def main():
