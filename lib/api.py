@@ -4,7 +4,6 @@ import aiohttp
 from lib.result import *
 
 
-# TODO result parsing
 async def request_async(method: str, url: str, **kwargs) -> Result:
     # default is 5 min, which is too long
     if 'timeout' not in kwargs.keys():
