@@ -25,15 +25,7 @@ if __name__ == '__main__':
 
 
     foo_ok_safe = resultify(foo_ok)
-    match foo_ok_safe():
-        case Ok(it):
-            print("ok", it)
-        case Err(e):
-            print("error", e)
+    print(foo_ok_safe())
 
     foo_err_safe = resultify(foo_err)
-    match foo_err_safe():
-        case Ok(it):
-            print("ok", it)
-        case Err(e):
-            print("error", e)
+    print(foo_err_safe())
