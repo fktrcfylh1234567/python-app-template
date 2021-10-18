@@ -23,6 +23,9 @@ async def main():
     res = await request_async('post', 'https://httpbin.org/post', json=my_class)
     print(res)
 
+    res = await request_async('post', 'https://httpbin.org/post', json=[my_class])
+    print(res)
+
 
 if __name__ == '__main__':
     asyncio.run(main())
