@@ -1,6 +1,6 @@
 import asyncio
 
-from api import request_async
+from lib.api import request_async
 
 
 async def main():
