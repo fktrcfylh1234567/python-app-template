@@ -5,6 +5,7 @@ from lib.result import *
 
 
 async def request_async(method: str, url: str, **kwargs) -> Result:
+    # default is 5 min, which is too long
     if 'timeout' not in kwargs.keys():
         kwargs['timeout'] = 1
 
@@ -14,7 +15,7 @@ async def request_async(method: str, url: str, **kwargs) -> Result:
                 if not resp.ok:
                     return Err(resp.status)
 
-                return await resp.json()
+                return Ok(await resp.json())
         except BaseException as e:
             return Err(e)
 
@@ -22,7 +23,11 @@ async def request_async(method: str, url: str, **kwargs) -> Result:
 if __name__ == '__main__':
     async def main():
         res = await request_async('post', 'https://httpbin.org/post', json={'key': 'value'})
-        print(res)
+        match res:
+            case Ok(it):
+                print("ok:", it)
+            case Err(e):
+                print("error:", e)
 
 
     asyncio.run(main())
