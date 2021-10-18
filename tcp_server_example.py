@@ -1,33 +1,29 @@
 import asyncio
 
+from lib.tcp_server import TcpServer, ClientSession
 
-async def handle_connection(reader: asyncio.StreamReader, writer: asyncio.StreamWriter):
-    while True:
-        data = await reader.read(100)
-        if data == b'':
-            break
 
-        message = data.decode()
-        addr = writer.get_extra_info('peername')
+async def on_connected(session: ClientSession):
+    print('on_connected', session.addr)
+    session.data["user_id"] = "qwer"
 
-        print(f"Received {message!r} from {addr!r}")
 
-        print(f"Send: {message!r}")
-        writer.write(data)
-        await writer.drain()
+async def on_message(session: ClientSession, message: str):
+    print(f"Received {message!r} from {session.data['id']}")
 
-    print("Close the connection")
-    writer.close()
+
+async def on_disconnected(session: ClientSession):
+    print('on_disconnected', session.data['id'])
 
 
 async def main():
-    server = await asyncio.start_server(handle_connection, '127.0.0.1', 8888)
+    server = TcpServer()
 
-    addr = server.sockets[0].getsockname()
-    print(f'Serving on {addr}')
+    server.on_connected = on_connected
+    server.on_message = on_message
+    server.on_disconnected = on_disconnected
 
-    async with server:
-        await server.serve_forever()
+    await server.run()
 
 
 if __name__ == '__main__':
