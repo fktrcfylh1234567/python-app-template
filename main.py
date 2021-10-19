@@ -27,5 +27,15 @@ async def main():
     print(res)
 
 
+def deco(fn):
+    print(fn)
+    return fn
+
+
+@deco
+async def foo():
+    pass
+
+
 if __name__ == '__main__':
     asyncio.run(main())
