@@ -15,6 +15,7 @@ def foo_err_retry(param):
 
 if __name__ == '__main__':
     res, err = foo_err_safe(42)
-    assert res is None and err is not None
+    assert res is None
+    assert err is not None
 
     foo_err_retry(42)
