@@ -1,10 +1,14 @@
-import logging
+from lib.logging import *
 
-_log_format = f"%(asctime)s - [%(levelname)s] - %(filename)s %(funcName)s(line %(lineno)d) - %(message)s"
-logging.basicConfig(level=logging.INFO, format=_log_format)
+setup_logging()
 
 
-def foo():
+@logify
+def foo(param):
+    return param
+
+
+def baz():
     try:
         raise Exception(':nut:')
     except BaseException as e:
@@ -18,4 +22,6 @@ if __name__ == '__main__':
     logging.debug("This is a debug message")
     logging.info("Informational message")
     logging.error("An error has happened!")
-    foo()
+    baz()
+
+    foo(42)
