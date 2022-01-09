@@ -1,24 +1,8 @@
 import asyncio
-from typing import Tuple, Callable, Awaitable, Dict
+from typing import Callable, Awaitable, Dict
 
-ClientAddress = Tuple[str, int]
-
-
-class ClientSession:
-    def __init__(self, addr: ClientAddress, reader: asyncio.StreamReader, writer: asyncio.StreamWriter):
-        self.addr = addr
-        self.data = dict()
-
-        self._reader = reader
-        self._writer = writer
-
-    async def send(self, msg: str):
-        self._writer.write(msg.encode())
-        await self._writer.drain()
-
-
-async def _empty_event(*args):
-    return args
+from lib.tcp import _empty_event, ClientAddress
+from lib.tcp.ClientSession import ClientSession
 
 
 class TcpServer:

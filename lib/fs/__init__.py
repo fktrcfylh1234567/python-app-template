@@ -1,5 +1,3 @@
-import asyncio
-
 import aiofiles
 
 
@@ -22,16 +20,3 @@ async def append_text(filename: str, data: str):
 async def write_bytes(filename: str, data: bytes):
     async with aiofiles.open(filename, mode='wb+') as f:
         await f.write(data)
-
-
-if __name__ == '__main__':
-    async def main():
-        async for line in read_lines("../requirements.txt"):
-            print(line)
-
-        await write_text("myfile", "zuzuka")
-        await append_text("myfile", "zuzuka")
-        await write_bytes("myfile", b"zuzuka")
-
-
-    asyncio.run(main())

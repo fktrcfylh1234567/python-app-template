@@ -1,7 +1,7 @@
 import asyncio
 import uuid
 
-from lib.tcp_server import TcpServer, ClientSession
+from lib.tcp import TcpServer, ClientSession
 
 server = TcpServer()
 

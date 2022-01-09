@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Any, Optional, TypeAlias
+from typing import Any, Optional, TypeAlias, Callable
 
 
 @dataclass
@@ -27,21 +27,12 @@ class Err:
 
 Result: TypeAlias = Ok | Err
 
-# example
-if __name__ == '__main__':
-    def foo() -> Result:
-        return Ok("data")
 
+def resultify(block) -> Callable[[], Result]:
+    def f():
+        try:
+            return Ok(block())
+        except BaseException as e:
+            return Err(e)
 
-    def baz() -> Result:
-        return Err()
-
-
-    match foo():
-        case Ok(it):
-            print("ok:", it)
-        case Err(e):
-            print("error:", e)
-
-    print(foo().unwrap())
-    print(baz().or_else("null").unwrap())
+    return f

@@ -1,7 +1,6 @@
-import asyncio
-
 import aiohttp
-from lib.result import *
+
+from lib.result_matchable import Result, Ok, Err
 
 
 async def request_async(method: str, url: str, **kwargs) -> Result:
@@ -28,16 +27,3 @@ async def request_async(method: str, url: str, **kwargs) -> Result:
                 return Ok(await resp.json())
         except BaseException as e:
             return Err(e)
-
-
-if __name__ == '__main__':
-    async def main():
-        res = await request_async('post', 'https://httpbin.org/post', json={'key': 'value'})
-        match res:
-            case Ok(it):
-                print("ok:", it)
-            case Err(e):
-                print("error:", e)
-
-
-    asyncio.run(main())
