@@ -28,11 +28,16 @@ class Err:
 Result: TypeAlias = Ok | Err
 
 
-def resultify(block) -> Callable[[], Result]:
-    def f():
-        try:
-            return Ok(block())
-        except BaseException as e:
-            return Err(e)
+def run_catching(f, *args, **kwargs) -> Result:
+    try:
+        return Ok(f(*args, **kwargs))
+    except BaseException as e:
+        return Err(e)
+
+
+# decorator
+def resultify(block) -> Callable[..., Result]:
+    def f(*args, **kwargs):
+        return run_catching(block, *args, **kwargs)
 
     return f
